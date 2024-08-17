@@ -2,7 +2,7 @@ Add Metal bar items to Vintage story to identify lose rock on the sealing of min
 It can save you from Cave-ins.
 
 Your world had to enable cave-ins during initial setup or with this command:
-
+/worldConfig caveIns
 
 # TODO list:
 - Resolves sounds issues
