@@ -1,3 +1,9 @@
 {
-	"item-simplewand": "(Example Mod) Simple Wand"
+	"item-pickbar-copper": "Copper pickbar",
+	"item-pickbar-tinbronze": "Tin bronze pickbar",
+	"item-pickbar-bismuthbronze": "Bismuth bronze  pickbar",
+	"item-pickbar-blackbronze": "Black bronze  pickbar",
+	"item-pickbar-iron": "Iron  pickbar",
+	"item-pickbar-meteoriciron": "Meteoric iron  pickbar",
+	"item-pickbar-steel": "Steel  pickbar"
 }
