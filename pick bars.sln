@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeBuild", "pick bars\ZZCakeBuild\CakeBuild.csproj", "{AC59FEE3-D223-485F-AFA7-45C5EEB1CD2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pick bars", "pick bars\pick bars\pick bars.csproj", "{B97F3CEF-8317-43E4-A13F-08182F236F07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC59FEE3-D223-485F-AFA7-45C5EEB1CD2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC59FEE3-D223-485F-AFA7-45C5EEB1CD2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC59FEE3-D223-485F-AFA7-45C5EEB1CD2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC59FEE3-D223-485F-AFA7-45C5EEB1CD2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B97F3CEF-8317-43E4-A13F-08182F236F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B97F3CEF-8317-43E4-A13F-08182F236F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B97F3CEF-8317-43E4-A13F-08182F236F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B97F3CEF-8317-43E4-A13F-08182F236F07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

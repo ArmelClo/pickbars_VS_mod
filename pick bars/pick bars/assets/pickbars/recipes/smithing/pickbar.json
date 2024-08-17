@@ -1,0 +1,9 @@
+{
+	ingredient: { type: "item", code: "game:ingot-*", name: "metale", allowedVariants: ["copper", "tinbronze", "iron", "steel"] },
+	pattern: [[
+		"################",
+		"________________",
+		"################"
+	]],
+	output: { type: "item", code: "pickbars:pickbar-{metale}", quantity: 2}
+}

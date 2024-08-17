@@ -1,0 +1,189 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textureSizes": {
+    "0": [
+      32,
+      32
+    ],
+    "1": [
+      32,
+      32
+    ],
+    "2": [
+      32,
+      32
+    ],
+    "3": [
+      32,
+      32
+    ],
+    "4": [
+      32,
+      32
+    ],
+    "5": [
+      32,
+      32
+    ],
+    "6": [
+      32,
+      32
+    ]
+  },
+  "elements": [
+    {
+      "name": "cube0",
+      "from": [
+        7,
+        -16,
+        8
+      ],
+      "to": [
+        8,
+        32,
+        9
+      ],
+      "rotationOrigin": [
+        7,
+        0,
+        8
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            1,
+            16
+          ],
+          "autoUv": false
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            3,
+            0,
+            4,
+            16
+          ],
+          "autoUv": false
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            0,
+            3,
+            16
+          ],
+          "autoUv": false
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            1,
+            0,
+            2,
+            16
+          ],
+          "autoUv": false
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            6.5,
+            8,
+            7.5,
+            9
+          ],
+          "autoUv": false
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            5.5,
+            6,
+            6.5,
+            7
+          ],
+          "autoUv": false
+        }
+      },
+      "parent": null,
+      "children": []
+    }
+  ],
+  "animations": [
+    {
+      "name": "Hit1",
+      "code": "pickbarhitanimation",
+      "quantityframes": 60,
+      "onActivityStopped": "Stop",
+      "onAnimationEnd": "Repeat",
+      "keyframes": [
+        {
+          "frame": 0,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "offsetZ": 0.0
+            }
+          }
+        },
+        {
+          "frame": 7,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 8.0,
+              "offsetZ": 0.0
+            }
+          }
+        },
+        {
+          "frame": 20,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "offsetZ": 0.0
+            }
+          }
+        },
+        {
+          "frame": 26,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 8.0,
+              "offsetZ": 0.0
+            }
+          }
+        },
+        {
+          "frame": 40,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 0.0,
+              "offsetZ": 0.0
+            }
+          }
+        },
+        {
+          "frame": 45,
+          "elements": {
+            "cube0": {
+              "offsetX": 0.0,
+              "offsetY": 8.0,
+              "offsetZ": 0.0
+            }
+          }
+        }
+      ],
+    }
+  ],
+}
