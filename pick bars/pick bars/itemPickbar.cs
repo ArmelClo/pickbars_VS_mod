@@ -3,7 +3,6 @@ using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
-using Vintagestory.Client.NoObf;
 using Vintagestory.GameContent;
 
 namespace pick_bars;
@@ -19,17 +18,20 @@ public class ItemPickbar : Item
         {
             base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);;
         }
-        if (firstEvent)
+        if (!firstEvent)
         {
+            handling = EnumHandHandling.PreventDefault;
             return;
         }
         if (blockSel == null)
         {
+            handling = EnumHandHandling.PreventDefault;
             return;
         }
 
         if (!blockSel.Block.BlockBehaviors.OfType<BlockBehaviorUnstableRock>().Any())
         {
+            handling = EnumHandHandling.PreventDefault;
             return;
         }
 
@@ -49,11 +51,12 @@ public class ItemPickbar : Item
             blockPosList.Add(sel.Position);
         }
 
-        var player = byEntity as IPlayer;
-
+        EntityPlayer entityPlayer = byEntity as EntityPlayer;
+        
         BlockPos pos = blockSel.Position;
-        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y, (double)pos.Z, player, false, 32f, 1f);
-        api.World.HighlightBlocks(player, 1, blockPosList, color, EnumHighlightBlocksMode.Absolute,
+        DamageItem(api.World, byEntity, entityPlayer?.Player.InventoryManager.ActiveHotbarSlot, 1);
+        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y, (double)pos.Z, entityPlayer?.Player, false, 32f, 1f);
+        api.World.HighlightBlocks(entityPlayer?.Player, 1, blockPosList, color, EnumHighlightBlocksMode.Absolute,
             EnumHighlightShape.Arbitrary, 1f);
     }
 
@@ -148,12 +151,7 @@ public class ItemPickbar : Item
 
     bool blockposrespectrules(ICoreAPI api, BlockSelection block, BlockPos originepos)
     {
-        if (api.World.BlockAccessor.GetBlock(block.Position.DownCopy()).Id != 0)
-        {
-            return false;
-        }
-
-        if (block.Position.DistanceTo(originepos) > 6)
+        if (block.Position.DistanceTo(originepos) > 2*ToolTier)
         {
             return false;
         }
@@ -163,6 +161,6 @@ public class ItemPickbar : Item
             return false;
         }
 
-        return true;
+        return api.World.BlockAccessor.GetBlock(block.Position.DownCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.UpCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.NorthCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.SouthCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.EastCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.WestCopy()).Id == 0;
     }
 }
