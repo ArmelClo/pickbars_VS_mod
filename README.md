@@ -1,5 +1,5 @@
-Add Metal bar items to Vintage story to identify lose rock on the sealing of mines and cavers.
-It can save you from Cave-ins.
+Add Metal bar items to identify lose rock on the ceilling of mines and caves.
+It may save you from Cave-ins.
 
 Your world had to enable cave-ins during initial setup or with this command:
 /worldConfig caveIns
