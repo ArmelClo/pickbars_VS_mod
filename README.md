@@ -8,3 +8,4 @@ Your world had to enable cave-ins during initial setup or with this command:
 - Resolves sounds issues
 - Optimise 
 - change crafts
+- Add animations
