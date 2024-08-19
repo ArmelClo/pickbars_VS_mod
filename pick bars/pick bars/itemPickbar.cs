@@ -25,13 +25,11 @@ public class ItemPickbar : Item
         }
         if (blockSel == null)
         {
-            handling = EnumHandHandling.PreventDefault;
             return;
         }
 
         if (!blockSel.Block.BlockBehaviors.OfType<BlockBehaviorUnstableRock>().Any())
         {
-            handling = EnumHandHandling.PreventDefault;
             return;
         }
 
@@ -160,7 +158,7 @@ public class ItemPickbar : Item
         {
             return false;
         }
-
-        return api.World.BlockAccessor.GetBlock(block.Position.DownCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.UpCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.NorthCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.SouthCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.EastCopy()).Id == 0 || api.World.BlockAccessor.GetBlock(block.Position.WestCopy()).Id == 0;
+        
+        return api.World.BlockAccessor.GetBlock(block.Position.DownCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.UpCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.NorthCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.SouthCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.EastCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.WestCopy()).LightAbsorption == 0;
     }
 }
