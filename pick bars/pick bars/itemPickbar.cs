@@ -13,17 +13,25 @@ public class ItemPickbar : Item
         EntitySelection entitySel,
         bool firstEvent, ref EnumHandHandling handling)
     {
+        handling = EnumHandHandling.PreventDefault;
 
+        if (api.Side == EnumAppSide.Client)
+        {
+            return;
+        }
         if (byEntity.Controls.CtrlKey && byEntity.Controls.ShiftKey)
         {
-            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);;
+            base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
+            return;
         }
         if (!firstEvent)
         {
-            handling = EnumHandHandling.PreventDefault;
             return;
         }
-        if (blockSel == null)
+        EntityPlayer entityPlayer = byEntity as EntityPlayer;
+        blockSel = entityPlayer!.BlockSelection;
+        
+        if (blockSel?.Block == null)
         {
             return;
         }
@@ -48,12 +56,10 @@ public class ItemPickbar : Item
         {
             blockPosList.Add(sel.Position);
         }
-
-        EntityPlayer entityPlayer = byEntity as EntityPlayer;
         
         BlockPos pos = blockSel.Position;
         DamageItem(api.World, byEntity, entityPlayer?.Player.InventoryManager.ActiveHotbarSlot, 1);
-        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y, (double)pos.Z, entityPlayer?.Player, false, 32f, 1f);
+        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y, (double)pos.Z, null, false, 32f, 1f);
         api.World.HighlightBlocks(entityPlayer?.Player, 1, blockPosList, color, EnumHighlightBlocksMode.Absolute,
             EnumHighlightShape.Arbitrary, 1f);
     }

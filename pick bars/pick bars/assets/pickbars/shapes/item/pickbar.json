@@ -1,6 +1,9 @@
 {
   "textureWidth": 16,
   "textureHeight": 16,
+  textures: {
+    metal: "game:block/metal/anvil/copper"
+  },
   "textureSizes": {
     "0": [
       32,
@@ -113,77 +116,6 @@
       },
       "parent": null,
       "children": []
-    }
-  ],
-  "animations": [
-    {
-      "name": "Hit1",
-      "code": "pickbarhitanimation",
-      "quantityframes": 60,
-      "onActivityStopped": "Stop",
-      "onAnimationEnd": "Repeat",
-      "keyframes": [
-        {
-          "frame": 0,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 0.0,
-              "offsetZ": 0.0
-            }
-          }
-        },
-        {
-          "frame": 7,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 8.0,
-              "offsetZ": 0.0
-            }
-          }
-        },
-        {
-          "frame": 20,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 0.0,
-              "offsetZ": 0.0
-            }
-          }
-        },
-        {
-          "frame": 26,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 8.0,
-              "offsetZ": 0.0
-            }
-          }
-        },
-        {
-          "frame": 40,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 0.0,
-              "offsetZ": 0.0
-            }
-          }
-        },
-        {
-          "frame": 45,
-          "elements": {
-            "cube0": {
-              "offsetX": 0.0,
-              "offsetY": 8.0,
-              "offsetZ": 0.0
-            }
-          }
-        }
-      ],
     }
   ],
 }
