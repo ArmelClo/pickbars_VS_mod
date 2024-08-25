@@ -1,0 +1,26 @@
+[
+  {
+    "op": "add",
+    "path": "/client/animations/192",
+    "value": {
+      "code": "pickbarhitanimation",
+      "animation": "pickbarhitanimation",
+      "animationSpeed": 2,
+      "easeInSpeed": 5,
+      "easeOutSpeed": 5,
+      "blendMode": "Add",
+      "elementWeight": {
+        "UpperArmR": 40,
+        "LowerArmR": 40,
+        "ItemAnchor": 40
+      },
+      "elementBlendMode": {
+        "UpperArmR": "AddAverage",
+        "LowerArmR": "AddAverage",
+        "ItemAnchor": "AddAverage"
+      }
+    },
+    "file": "game:entities/humanoid/player.json",
+    "side": "Server"
+  }
+]
