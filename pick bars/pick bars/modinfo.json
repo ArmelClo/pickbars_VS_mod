@@ -6,7 +6,7 @@
         "Zolkenn"
     ],
     "description": "Add metals pick bars to identify lose rocks",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "dependencies": {
         "game": ""
     }
