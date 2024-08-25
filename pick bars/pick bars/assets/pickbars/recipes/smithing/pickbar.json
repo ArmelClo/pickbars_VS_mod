@@ -5,5 +5,5 @@
 		"________________",
 		"################"
 	]],
-	output: { type: "item", code: "pickbars:pickbar-{metale}", quantity: 2}
+	output: { type: "item", code: "pickbars:pickbar-{metale}", quantity: 1}
 }
