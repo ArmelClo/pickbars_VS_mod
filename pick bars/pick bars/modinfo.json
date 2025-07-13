@@ -5,8 +5,8 @@
     "authors": [
         "Zolkenn"
     ],
-    "description": "Add metals pick bars to identify lose rocks",
-    "version": "1.0.0",
+    "description": "Add metal bars to identify loose rocks on the ceiling of mines and caves",
+    "version": "2.0.1",
     "dependencies": {
         "game": ""
     }
