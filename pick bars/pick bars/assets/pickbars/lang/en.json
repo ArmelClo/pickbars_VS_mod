@@ -5,5 +5,7 @@
 	"item-pickbar-blackbronze": "Black bronze  pickbar",
 	"item-pickbar-iron": "Iron  pickbar",
 	"item-pickbar-meteoriciron": "Meteoric iron  pickbar",
-	"item-pickbar-steel": "Steel  pickbar"
+	"item-pickbar-steel": "Steel  pickbar",
+	"pickbar-info": "Radius range:",
+	"pickbar-blocks": "Blocks"
 }

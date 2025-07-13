@@ -5,5 +5,7 @@
 	"item-pickbar-blackbronze": "Barre de minage en bronze noir",
 	"item-pickbar-iron": "Barre de minage en fer",
 	"item-pickbar-meteoriciron": "Barre de minage en fer météorique",
-	"item-pickbar-steel": "Barre de minage en acier"
+	"item-pickbar-steel": "Barre de minage en acier",
+	"pickbar-info": "Rayon de portée:",
+	"pickbar-blocks": "Blocs"
 }

@@ -28,10 +28,19 @@
   heldTpUseAnimation: "pickbarhitanimation",
   materialDensity: 7870,
   attributes: {
+    rangebytype: {
+      "pickbar-copper": 4,
+      "pickbar-bismuthbronze": 6,
+      "pickbar-tinbronze": 6,
+      "pickbar-blackbronze": 6,
+      "pickbar-iron": 8,
+      "pickbar-meteoriciron": 8,
+      "pickbar-steel": 10
+    },
     groundStorageTransform: {
       translation: {
         x: 0,
-        y: 1,
+        y: 0,
         z: 0
       },
       rotation: {

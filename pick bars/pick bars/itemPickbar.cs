@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
 
@@ -19,18 +22,21 @@ public class ItemPickbar : Item
         {
             return;
         }
-        if (byEntity.Controls.CtrlKey && byEntity.Controls.ShiftKey)
+
+        if (byEntity.Controls.CtrlKey && byEntity.Controls.ShiftKey) // todo: check touches si modifiables ?
         {
             base.OnHeldInteractStart(slot, byEntity, blockSel, entitySel, firstEvent, ref handling);
             return;
         }
+
         if (!firstEvent)
         {
             return;
         }
+
         EntityPlayer entityPlayer = byEntity as EntityPlayer;
         blockSel = entityPlayer!.BlockSelection;
-        
+
         if (blockSel?.Block == null)
         {
             return;
@@ -41,13 +47,58 @@ public class ItemPickbar : Item
             return;
         }
 
-        var blockSelList = getAllRockBlocks(api, blockSel);
+        int randId = api.World.Rand.Next();
+
+        TyronThreadPool.QueueTask(delegate { GetAllRockBlocks(blockSel, byEntity, blockSel, entityPlayer, randId); },
+            "Pickbar GetAllRockBlocks");
+        TyronThreadPool.QueueTask(delegate
+        {
+            Thread.Sleep(10 * 1000); // wait 10 seconds before clearing the highlight
+            Clear(entityPlayer, randId);
+        });
+    }
+
+
+    private void Clear(EntityPlayer entityPlayer, int id)
+    {
+        foreach (IPlayer player in api.World.GetPlayersAround(entityPlayer.Pos.XYZ, 20, 20))
+        {
+            api.World.HighlightBlocks(player, id, new List<BlockPos>(), new List<int>(), EnumHighlightBlocksMode.Absolute,
+                EnumHighlightShape.Arbitrary, 1f);
+        }
+    }
+
+    private void GetAllRockBlocks(BlockSelection blockorigine, EntityAgent byEntity, BlockSelection blockSel,
+        EntityPlayer entityPlayer, int id)
+    {
+        var blockSelList = new List<BlockSelection>();
+        var blockSelStack = new Stack<BlockSelection>();
+        blockSelStack.Push(blockorigine);
+
+        while (blockSelStack.Count != 0)
+        {
+            BlockSelection blockSelected = blockSelStack.Pop();
+            var neighbours = AdjacentBlock(blockSelected, blockorigine.Position);
+            foreach (BlockSelection neighbour in neighbours)
+            {
+                if (blockSelList.Any(sel => sel.Position == neighbour.Position) ||
+                    blockSelStack.Any(sel => sel.Position == neighbour.Position))
+                {
+                    continue;
+                }
+
+                blockSelStack.Push(neighbour);
+            }
+
+            blockSelList.Add(blockSelected);
+        }
+
 
         var color = new List<int>();
         foreach (var blockSele in blockSelList)
         {
             var instableblock = blockSele.Block.BlockBehaviors.OfType<BlockBehaviorUnstableRock>().First();
-            var intablility = instableblock.getInstability(blockSele.Position); 
+            var intablility = instableblock.getInstability(blockSele.Position);
             color.Add(ColorUtil.ColorFromRgba((int)(255 * intablility), (int)(255 - 255 * intablility), 0, 50));
         }
 
@@ -56,49 +107,20 @@ public class ItemPickbar : Item
         {
             blockPosList.Add(sel.Position);
         }
-        
+
         BlockPos pos = blockSel.Position;
-        DamageItem(api.World, byEntity, entityPlayer?.Player.InventoryManager.ActiveHotbarSlot, 1);
-        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y, (double)pos.Z, null, false, 32f, 1f);
-        api.World.HighlightBlocks(entityPlayer?.Player, 1, blockPosList, color, EnumHighlightBlocksMode.Absolute,
-            EnumHighlightShape.Arbitrary, 1f);
-    }
+        DamageItem(api.World, byEntity, entityPlayer.Player.InventoryManager.ActiveHotbarSlot, 1);
+        byEntity.World.PlaySoundAt(new AssetLocation("pickbars:sounds/pickbarhit"), (double)pos.X, (double)pos.Y,
+            (double)pos.Z, null, false, 32f, 1f);
 
-    void Clear(IPlayer p)
-    {
-        api.World.HighlightBlocks(p, 0, new List<BlockPos>(), new List<int>(), EnumHighlightBlocksMode.Absolute,
-            EnumHighlightShape.Arbitrary, 1f);
-    }
-
-    List<BlockSelection> getAllRockBlocks(ICoreAPI api, BlockSelection blockorigine)
-    {
-        var blockSelList = new List<BlockSelection>();
-        var blockSelStack = new Stack<BlockSelection>();
-        blockSelStack.Push(blockorigine);
-
-        while (blockSelStack.Count != 0)
+        foreach (IPlayer player in api.World.GetPlayersAround(entityPlayer.Pos.XYZ, 20, 20))
         {
-            var blockse = blockSelStack.Pop();
-            var voisins = adjacentBlock(api, blockse, blockorigine.Position);
-            foreach (var voisin in voisins)
-            {
-                if (blockSelList.Any(sel => sel.Position == voisin.Position) ||
-                    blockSelStack.Any(sel => sel.Position == voisin.Position))
-                {
-                    continue;
-                }
-
-                blockSelStack.Push(voisin);
-            }
-
-            blockSelList.Add(blockse);
+            api.World.HighlightBlocks(player, id, blockPosList, color, EnumHighlightBlocksMode.Absolute,
+                EnumHighlightShape.Arbitrary, 1f);
         }
-
-
-        return blockSelList;
     }
 
-    List<BlockSelection> adjacentBlock(ICoreAPI api, BlockSelection block, BlockPos originepos)
+    private List<BlockSelection> AdjacentBlock(BlockSelection block, BlockPos originepos)
     {
         var allAdjacentBlockPos = new List<BlockPos>();
         //listadjacentblockpos.Add(block.Position.UpCopy());
@@ -143,8 +165,9 @@ public class ItemPickbar : Item
 
         foreach (var adjacentBlockPos in allAdjacentBlockPos)
         {
-            var adjacentBlockSel = new BlockSelection(adjacentBlockPos, BlockFacing.UP, api.World.BlockAccessor.GetBlock(adjacentBlockPos));
-            if (blockposrespectrules(api, adjacentBlockSel, originepos))
+            var adjacentBlockSel = new BlockSelection(adjacentBlockPos, BlockFacing.UP,
+                api.World.BlockAccessor.GetBlock(adjacentBlockPos));
+            if (BlockProspectRules(adjacentBlockSel, originepos))
             {
                 listAdjacentBlockSel.Add(adjacentBlockSel);
             }
@@ -153,9 +176,9 @@ public class ItemPickbar : Item
         return listAdjacentBlockSel;
     }
 
-    bool blockposrespectrules(ICoreAPI api, BlockSelection block, BlockPos originepos)
+    private bool BlockProspectRules(BlockSelection block, BlockPos originepos)
     {
-        if (block.Position.DistanceTo(originepos) > 2*ToolTier)
+        if (block.Position.DistanceTo(originepos) > Attributes["range"].AsInt())
         {
             return false;
         }
@@ -164,7 +187,15 @@ public class ItemPickbar : Item
         {
             return false;
         }
+
+        
         
         return api.World.BlockAccessor.GetBlock(block.Position.DownCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.UpCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.NorthCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.SouthCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.EastCopy()).LightAbsorption == 0 || api.World.BlockAccessor.GetBlock(block.Position.WestCopy()).LightAbsorption == 0;
+    }
+
+    public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        dsc.AppendLine(Lang.Get("pickbars:pickbar-info") + " " + Attributes["range"].AsInt() + " " + Lang.Get("pickbars:pickbar-blocks"));
     }
 }
