@@ -6,8 +6,8 @@
         "Zolkenn"
     ],
     "description": "Add metal bars to identify loose rocks on the ceiling of mines and caves",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "dependencies": {
-        "game": ""
+        "game": "1.20.12"
     }
 }
